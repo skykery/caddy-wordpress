@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  caddy:
+    image: abiosoft/caddy:php
+    volumes:
+      - ./config/caddy/Caddyfile:/etc/Caddyfile
+      - ./config/caddy:/root/.caddy
+    ports:
+      - "2015:2015"
+  mariadb:
+    image: 'bitnami/mariadb:10.3'
+    volumes:
+      - ./config/mariadb:/bitnami/mariadb
+    environment:
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+      - ALLOW_EMPTY_PASSWORD=yes
+  wordpress:
+    image: 'bitnami/wordpress:5'
+    volumes:
+      - ./config/wordpress:/bitnami/wordpress
+    depends_on:
+      - mariadb
+    environment:
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+      - ALLOW_EMPTY_PASSWORD=yes

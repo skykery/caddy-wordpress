@@ -1,0 +1,9 @@
+0.0.0.0:2015 {
+    proxy / wordpress:80 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-For {remote}
+        header_upstream X-Forwarded-Port {server_port}
+        header_upstream X-Forwarded-Proto {scheme}
+    }
+}
